@@ -8,6 +8,8 @@ export default function Home() {
   useEffect(() => {
 
     (async () => {
+      // サーバーサイドではなくクライアントサイドでのみ動作するコード
+      // window オブジェクトをライブラリ内で利用するため、 useEffect の中で実行する
       // @ts-ignore
       const SvgPaper = (await import('svg-paper')).default;
       console.log(SvgPaper);
@@ -20,6 +22,8 @@ export default function Home() {
         .replace('%totalAmount%', "¥1,000")
         .replace('%subtotal%', "¥1,000");
 
+      // MEMO: 配列渡しはサポートしてないっぽい
+      // https://github.com/ttskch/svg-paper/blob/9c898c25e4a141d55ec658cda184926c82a75bbb/js/src/svg-paper.js#L17C19-L17C30
       for (let i = 0; i <= 25; i++) {
         paper.replace(`%itemName[${i}]%`, `アイテム ${i}`);
         paper.replace(`%quantity[${i}]%`, "1");
@@ -33,6 +37,8 @@ export default function Home() {
     })();
   })
   return (
+    // MEMO: ここで SVG を読み込む
+    // .paper .A4 は global.css で定義。印刷時のみ A4 サイズとしている
     <main className="paper A4">
       <ExportedFromFigmaTweaked></ExportedFromFigmaTweaked>
     </main>
